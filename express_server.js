@@ -32,7 +32,9 @@ app.get("/urls", (req, res) => {
 
 app.get("/urls/new", (req, res) => {
   res.render("urls_new");
-}); 
+});  
+
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/urls/:id", (req, res) => {
   const shortUrl = req.params.id

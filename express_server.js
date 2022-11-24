@@ -4,7 +4,7 @@ const PORT = 8080;
 
 app.set("view engine", "ejs");
 
-function generateRandomString() {
+function generateRandomString(length) {
  let result           = '';
  let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
  let charactersLength = characters.length;
@@ -45,19 +45,23 @@ app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });  
 
-app.post("/urls", (req, res) => {
-  console.log(req.body); // Log the POST request body to the console
-  res.send("Ok"); // Respond with 'Ok' (we will replace this)
-});
-
 app.get("/urls/:id", (req, res) => {
   const shortUrl = req.params.id
   const longURL = urlDatabase[shortUrl]
   const templateVars = { id: shortUrl, longURL};
   res.render("urls_show", templateVars);
 });
- 
+
 app.post("/urls", (req, res) => {
   console.log(req.body); // Log the POST request body to the console
-  res.send("Ok"); // Respond with 'Ok' (we will replace this)
+  const shortUrl = generateRandomString(6)
+  urlDatabase[shortUrl] = req.body.longURL
+  res.redirect(`/urls/${shortUrl}`)
+  //res.send("Ok"); // Respond with 'Ok' (we will replace this)
+});
+
+app.get("/u/:id", (req, res) => {
+ const id = req.params.id
+ const longURL = urlDatabase[id]? urlDatabase[id]: ""
+ res.redirect(longURL);
 });

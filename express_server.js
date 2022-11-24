@@ -60,8 +60,16 @@ app.post("/urls", (req, res) => {
   //res.send("Ok"); // Respond with 'Ok' (we will replace this)
 });
 
+// redirect to long url website once the short url is clicked
 app.get("/u/:id", (req, res) => {
  const id = req.params.id
  const longURL = urlDatabase[id]? urlDatabase[id]: ""
  res.redirect(longURL);
+}); 
+
+//delete Url and redirect to urls page
+app.post("/urls/:id/delete", (req, res) => { 
+const id = req.params.id
+delete urlDatabase[id]
+res.redirect("/urls")
 });

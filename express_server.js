@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const PORT = 8080;
-
+const cookieParser = require('cookie-parser')
 app.set("view engine", "ejs");
 
 function generateRandomString(length) {
@@ -72,4 +72,15 @@ app.post("/urls/:id/delete", (req, res) => {
 const id = req.params.id
 delete urlDatabase[id]
 res.redirect("/urls")
-});
+}); 
+
+app.post("/urls/:id", (req, res) => { 
+  const id = req.params.id
+  urlDatabase[id] = req.body.longURL;
+  res.redirect("/urls")
+});  
+
+app.post("/login", (req, res) => { 
+  res.cookie('username',req.body)
+  res.redirect("/urls")
+}); 

@@ -3,6 +3,7 @@ const app = express();
 const PORT = 8080;
 const cookieParser = require('cookie-parser')
 app.set("view engine", "ejs");
+app.use(cookieParser())
 
 function generateRandomString(length) {
  let result           = '';
@@ -37,12 +38,25 @@ app.get("/hello", (req, res) => {
 }); 
 
 app.get("/urls", (req, res) => {
+  console.log(req.cookies)
   const templateVars = { urls: urlDatabase };
+  if(req.cookies && req.cookies.username){ 
+    templateVars.username = req.cookies.username
+      }else { 
+        templateVars.username = null
+      }
   res.render("urls_index", templateVars);
 }); 
 
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+  const templateVars = {
+  };
+  if(req.cookies && req.cookies.username){ 
+templateVars.username = req.cookies.username
+  }else { 
+    templateVars.username = null
+  }
+  res.render("urls_new",templateVars);
 });  
 
 app.get("/urls/:id", (req, res) => {
@@ -81,6 +95,13 @@ app.post("/urls/:id", (req, res) => {
 });  
 
 app.post("/login", (req, res) => { 
-  res.cookie('username',req.body)
+  res.cookie('username',req.body.username)
+  console.log(req.body)
   res.redirect("/urls")
-}); 
+});   
+
+app.post("/logout", (req, res) => { 
+  res.clearCookie('username')
+  console.log(req.body)
+  res.redirect("/urls")
+});  

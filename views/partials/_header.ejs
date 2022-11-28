@@ -12,23 +12,31 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
+   
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
-        <form class="form-inline" action="/login" method="POST">
-          <div class="form-group mb-2">
-            <label for="username">Enter a Username:</label>
-            <input
-              class="form-control"
-              type="text"
-              name="username"
-              placeholder="username"
-              style="width: 300px; margin: 1em"
-            />
-            <button type="submit" class="btn btn-primary">Login</button>
-          </div>
-        </form>
+        <% if(username){ %>
+          <h5 style="margin-left: 45em; margin-top: 5px"> Logged in as: <%= username %>  </h5> 
+          <form class="form-inline" action="/logout" method="POST">
+          <button style="margin-left: 1em" type="submit" class="btn btn-primary">Logout</button>
+          </form>
+          <% } else{ %>  
+          <form class="form-inline" action="/login" method="POST">
+            <div class="form-group mb-2">
+              <label style= "margin-left:40em" for="username">Enter a Username:</label>
+              <input
+                class="form-control"
+                type="text"
+                name="username"
+                placeholder="username"
+                style="width: 300px; margin-left: 1em"
+              />
+              <button style="margin-left: 1em" type="submit" class="btn btn-primary">Login</button>
+            </div>
+          </form>
+       <% } %>
       </div>
     </div>
   </nav>

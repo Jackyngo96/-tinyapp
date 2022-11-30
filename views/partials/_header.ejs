@@ -17,15 +17,16 @@
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
-        <% if(username){ %>
-          <h5 style="margin-left: 45em; margin-top: 5px"> Logged in as: <%= username %>  </h5> 
+        <a class="nav-item nav-link" href="/register">Registration</a>
+        <% if(user){ %>
+          <h5 style="margin-left: 45em; margin-top: 5px"> Logged in as: <%= user.email %>  </h5> 
           <form class="form-inline" action="/logout" method="POST">
           <button style="margin-left: 1em" type="submit" class="btn btn-primary">Logout</button>
           </form>
           <% } else{ %>  
           <form class="form-inline" action="/login" method="POST">
             <div class="form-group mb-2">
-              <label style= "margin-left:40em" for="username">Enter a Username:</label>
+              <label style= "margin-left:35em" for="username">Enter a Username:</label>
               <input
                 class="form-control"
                 type="text"

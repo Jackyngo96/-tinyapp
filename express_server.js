@@ -16,27 +16,16 @@ const generateRandomString = function (length) {
   return result;
 };
 
-// const getUser = function (reqInput,key) {
-//   for (const userId in users) {
-//     const user = users[userId];
-//     if (user[key] === reqInput) 
-//     return user;
-//   }
-//   return false;
-// };
-
-// const findUser = function () {
-//   const email = req.body.email;
-//   const password = req.body.password
-//   let foundUser = null;
-
-//   for (const userId in users) {
-//     const user = users[userId];
-//     if (user.email === email) {
-//       foundUser = user;
-//     }
-//   }
-// };
+const getUserByEmail = function (email) {   
+  let foundUser = null  
+  for (const userId in users) {
+  const user = users[userId];
+    if (user.email === email) {
+      foundUser = user;
+    }
+  }
+  return foundUser
+};
 
 const urlDatabase = {
   b2xVn2: "http://www.lighthouselabs.ca",
@@ -111,14 +100,14 @@ app.post("/urls", (req, res) => {
   res.send("Ok"); // Respond with 'Ok' (we will replace this)
 });
 
-// redirect to long url website once the short url is clicked
+
 app.get("/u/:id", (req, res) => {
   const id = req.params.id;
   const longURL = urlDatabase[id] ? urlDatabase[id] : "";
   res.redirect(longURL);
 });
 
-//delete Url and redirect to urls page
+
 app.post("/urls/:id/delete", (req, res) => {
   const id = req.params.id;
   delete urlDatabase[id];
@@ -134,13 +123,12 @@ app.post("/urls/:id", (req, res) => {
 
 
 app.get("/register", (req, res) => {
-  const templateVars = {};
-  if (req.cookies && req.cookies.userId) {
-    templateVars.user = users[req.cookies.userId];
+  const templateVars = {user:users[req.cookies.userId]}
+  if (!req.cookies.userId) {
+    res.render("registration",templateVars)
   } else {
-    templateVars.user = null;
+    res.redirect("/urls");
   }
-  res.render("registration",templateVars);
 });
 
 app.post("/register", (req, res) => {
@@ -151,16 +139,9 @@ app.post("/register", (req, res) => {
     return res.status(400).send("please provide an email and a password");
   }
   
-  let foundUser = null;
-
-  for (const userId in users) {
-    const user = users[userId];
-    if (user.email === email) {
-      foundUser = user;
-    }
-  }
-  
+  const foundUser = getUserByEmail(email)
   if (foundUser) {
+    
     return res.status(400).send("please provide a different email");
   } else {
     const newUserId = generateRandomString(6);
@@ -174,13 +155,13 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  const templateVars = {};
-  if (req.cookies && req.cookies.userId) {
-    templateVars.user = users[req.cookies.userId];
+  const templateVars = {user:users[req.cookies.userId]}
+  if (!req.cookies.userId) {
+    res.render("login",templateVars)
   } else {
-    templateVars.user = null;
+    res.redirect("/urls");
   }
-  res.render("login",templateVars);
+
 });
 
 app.post("/login", (req, res) => {
@@ -191,15 +172,7 @@ app.post("/login", (req, res) => {
     return res.status(400).send("please provide an email and a password");
   }
   
-  let foundUser = null;
-  
-  for (const userId in users) {
-  const user = users[userId];
-    if (user.email === email) {
-      foundUser = user;
-    }
-  }
-  
+  const foundUser = getUserByEmail(email)
   if (!foundUser) {
     return res.status(403).send("e-mail cannot be found");
   }

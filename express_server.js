@@ -97,7 +97,7 @@ app.get("/urls/:id", (req, res) => {
 
 app.post("/urls", (req, res) => {
   if (!req.cookies.userId) {
-    res.send("Cannot shorten Url, please login first")
+    res.status(400).send("Cannot shorten Url, please login first")
   } else {
     console.log(req.body); // Log the POST request body to the console
     const shortUrl = generateRandomString(6);
@@ -111,7 +111,7 @@ app.post("/urls", (req, res) => {
 
 app.get("/u/:id", (req, res) => {
   const id = req.params.id;
-  const longURL = urlDatabase[id] ? urlDatabase[id] : "";
+  const longURL = urlDatabase[id] ? urlDatabase[id] : res.status(400).send("shortened url is not present in the URL database");
   res.redirect(longURL);
 });
 

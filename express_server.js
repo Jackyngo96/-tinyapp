@@ -76,28 +76,36 @@ app.get("/urls", (req, res) => {
 });
 
 app.get("/urls/new", (req, res) => {
-  const templateVars = {};
-  if (req.cookies && req.cookies.userId ) {
-    templateVars.user = users[req.cookies.userId];
+  const templateVars = {user:users[req.cookies.userId]}
+  if (!req.cookies.userId) {
+    res.redirect("/login");
   } else {
-    templateVars.user = null;
+    res.render("urls_new",templateVars)
   }
-  res.render("urls_new", templateVars);
 });
 
 app.get("/urls/:id", (req, res) => {
+  if (!req.cookies.userId) {
+    res.redirect("/login"); 
+  } else {
   const shortUrl = req.params.id;
   const longURL = urlDatabase[shortUrl];
-  const templateVars = { id: shortUrl, longURL };
+  const templateVars = { id: shortUrl, longURL, user:users[req.cookies.userId] };
   res.render("urls_show", templateVars);
+  }
 });
 
 app.post("/urls", (req, res) => {
-  console.log(req.body); // Log the POST request body to the console
-  const shortUrl = generateRandomString(6);
-  urlDatabase[shortUrl] = req.body.longURL;
-  res.redirect(`/urls/${shortUrl}`);
-  res.send("Ok"); // Respond with 'Ok' (we will replace this)
+  if (!req.cookies.userId) {
+    res.send("Cannot shorten Url, please login first")
+  } else {
+    console.log(req.body); // Log the POST request body to the console
+    const shortUrl = generateRandomString(6);
+    urlDatabase[shortUrl] = req.body.longURL;
+    res.redirect(`/urls/${shortUrl}`);
+    res.send("Ok"); // Respond with 'Ok' (we will replace this)
+  console.log(urlDatabase)
+  }
 });
 
 
@@ -150,7 +158,7 @@ app.post("/register", (req, res) => {
     users[newUserId]["id"] = newUserId;
     users[newUserId]["email"] = req.body.email;
     users[newUserId]["password"] = req.body.password;
-    res.redirect("/urls");
+    res.redirect("/login");
   }
 });
 

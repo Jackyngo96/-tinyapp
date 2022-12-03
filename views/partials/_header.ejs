@@ -18,14 +18,14 @@
         <% if(user){ %>
           <a class="nav-item nav-link" href="/urls">My URLs</a>
           <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
-          <h5 style="margin-left: 35em; margin-top: 5px"> Logged in as: <%= user.email%>  </h5> 
+          <h5 style="margin-left: 20em; margin-top: 5px"> Logged in as: <%= user.email%>  </h5> 
           <form class="form-inline" action="/logout" method="POST">
           <button style="margin-left: 1em" type="submit" class="btn btn-primary">Logout</button>
           </form>
           <% }else{ %> 
-        <a class="nav-item nav-link" href="/urls">My URLs</a>
+        <a style="margin-left: 1em"class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
-        <a style="margin-left: 65em" class="nav-item nav-link" href="/login">Login</a>
+        <a style="margin-left: 45em" class="nav-item nav-link" href="/login">Login</a>
         <a class="nav-item nav-link" href="/register">Registration</a> 
         <% } %>
       </div>

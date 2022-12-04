@@ -1,3 +1,4 @@
+const getUserByEmail = require("./helpers")
 const bcrypt = require("bcryptjs");
 const express = require("express");
 const app = express();
@@ -17,16 +18,7 @@ const generateRandomString = function (length) {
   return result;
 };
 
-const getUserByEmail = function (email, database) {
-  let foundUser = null;
-  for (const userId in database) {
-    const user = database[userId];
-    if (user.email === email) {
-      foundUser = user;
-    }
-  }
-  return foundUser;
-};
+
 
 const urlsForUser = function (userId) {
   const filterUrl = {};

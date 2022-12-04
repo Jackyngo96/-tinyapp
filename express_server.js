@@ -87,10 +87,8 @@ app.get("/urls", (req, res) => {
     res.status(400).send("Pleas login first");
   } else {
     const user = users[req.cookies.userId];
-    //go inside urlDatabase find the url for the user Id
     const filteredDataBase = urlsForUser(req.cookies.userId);
     console.log(filteredDataBase);
-    //pass the filterd urlDatabase to templatevars
     const templateVars = { urls: filteredDataBase, user: user };
     res.render("urls_index", templateVars);
   }
@@ -127,6 +125,9 @@ app.get("/urls/:id", (req, res) => {
   if (!req.cookies.userId) {
     return res.status(400).send("Please login first");
   } 
+  if (req.cookies.userId && !urlDatabase[shortUrl]){ 
+    return res.status(400).send("Url does not exist");
+  }
   
   if (req.cookies.userId && urlDatabase[shortUrl] && urlDatabase[shortUrl].userID !== userId) {
     return res.status(400).send("Cannot access URL");
@@ -150,14 +151,39 @@ app.get("/u/:id", (req, res) => {
 });
 
 app.post("/urls/:id/delete", (req, res) => {
-  const id = req.params.id;
-  delete urlDatabase[id];
+  const shortUrl = req.params.id;
+  const userId = req.cookies.userId
+  if (req.cookies.userId && !urlDatabase[shortUrl]){ 
+    return res.status(400).send("Url does not exist")
+  }
+  
+  if (!req.cookies.userId) {
+    return res.status(400).send("Please login first");
+  } 
+  
+  if (req.cookies.userId && urlDatabase[shortUrl] && urlDatabase[shortUrl].userID !== userId) {
+    return res.status(400).send("Cannot access URL");
+  }
+  delete urlDatabase[shortUrl];
   res.redirect("/urls");
 });
-
+//Edit end point
 app.post("/urls/:id", (req, res) => {
-  const id = req.params.id;
-  urlDatabase[id]["longURL"] = req.body.longURL;
+  const shortUrl= req.params.id;
+  const userId = req.cookies.userId
+  if (req.cookies.userId && !urlDatabase[shortUrl]){ 
+    return res.status(400).send("Url does not exist")
+  }
+  
+  if (!req.cookies.userId) {
+    return res.status(400).send("Please login first");
+  } 
+  
+  if (req.cookies.userId && urlDatabase[shortUrl] && urlDatabase[shortUrl].userID !== userId) {
+    return res.status(400).send("Cannot access URL");
+  }
+  
+  urlDatabase[shortUrl]["longURL"] = req.body.longURL;
   res.redirect("/urls");
 });
 

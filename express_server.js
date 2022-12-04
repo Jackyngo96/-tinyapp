@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const express = require("express");
 const app = express();
 const PORT = 8080;
@@ -167,7 +168,7 @@ app.post("/urls/:id/delete", (req, res) => {
   delete urlDatabase[shortUrl];
   res.redirect("/urls");
 });
-//Edit end point
+//EDIT ENDPOINT//
 app.post("/urls/:id", (req, res) => {
   const shortUrl= req.params.id;
   const userId = req.cookies.userId
@@ -196,6 +197,7 @@ app.get("/register", (req, res) => {
   }
 });
 
+//REGISTER ENDPOINT//
 app.post("/register", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -210,10 +212,9 @@ app.post("/register", (req, res) => {
   } else {
     const newUserId = generateRandomString(6);
     users[newUserId] = {};
-    // res.cookie('userId', newUserId);
     users[newUserId]["id"] = newUserId;
-    users[newUserId]["email"] = req.body.email;
-    users[newUserId]["password"] = req.body.password;
+    users[newUserId]["email"] = email;
+    users[newUserId]["password"] = bcrypt.hashSync(password,10);
     res.redirect("/login");
   }
 });

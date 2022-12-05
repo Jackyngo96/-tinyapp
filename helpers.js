@@ -1,5 +1,6 @@
+
 const getUserByEmail = function (email, database) {
-  let foundUser = null;
+  let foundUser = undefined;
   for (const userId in database) {
     const user = database[userId];
     if (user.email === email) {
@@ -8,5 +9,6 @@ const getUserByEmail = function (email, database) {
   }
   return foundUser;
 }; 
+
 
 module.exports = getUserByEmail

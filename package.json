@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/.bin/nodemon -L express_server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha.js"
   },
   "repository": {
     "type": "git",
@@ -20,10 +20,13 @@
   "homepage": "https://github.com/Jackyngo96/-tinyapp#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "chai": "^4.3.7",
     "cookie-parser": "^1.4.6",
     "cookie-session": "^2.0.0",
     "ejs": "^3.1.8",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mocha": "^10.1.0",
+    "save-dev": "^0.0.1-security"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

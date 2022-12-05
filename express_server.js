@@ -1,4 +1,4 @@
-const getUserByEmail = require("./helpers")
+const getUserByEmail = require("./helpers");
 const bcrypt = require("bcryptjs");
 const express = require("express");
 const app = express();
@@ -17,8 +17,6 @@ const generateRandomString = function (length) {
   }
   return result;
 };
-
-
 
 const urlsForUser = function (userId) {
   const filterUrl = {};
@@ -72,9 +70,10 @@ app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");
 });
 
+//URLS//
 app.get("/urls", (req, res) => {
   if (!req.session.userId) {
-    res.status(400).send("Please login first 1");
+    res.status(400).send("Please login first ");
   } else {
     const user = users[req.session.userId];
     const filteredDataBase = urlsForUser(req.session.userId);

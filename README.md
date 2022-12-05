@@ -7,7 +7,7 @@ TinyApp is a full stack web application built with Node and Express that allows 
 #### Registration Page
 !["Screenshot of Registration Page"](https://github.com/Jackyngo96/-tinyapp/blob/master/docs/RegistrationPage.PNG?raw=true)
 
-#### Registration Page
+#### My URLs Page
 !["Screenshot of my URLs page"](https://github.com/Jackyngo96/-tinyapp/blob/master/docs/URLSpage.PNG?raw=true)
 
 ## Dependencies
@@ -24,4 +24,4 @@ TinyApp is a full stack web application built with Node and Express that allows 
 - Run the development web server using the `node express_server.js` command. 
 - Register as a new user 
 - Login 
-- Start creating your won personal library of short URLs!
+- Start creating your own personal library of short URLs!
